@@ -1,0 +1,108 @@
+@-webkit-keyframes rotating {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes rotating {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotating {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.turntable .platter-disc {
+  background: url('//thissongissick.com/blog/wp-content/uploads/2013/02/Daft-Punk-Helmets-Columbia-Album-artwork.jpg') no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  width: 500px;
+  height: 500px;
+  -webkit-border-radius: 500px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 500px;
+  -moz-background-clip: padding;
+  border-radius: 500px;
+  background-clip: padding-box;
+}
+.turntable .platter-disc[data-spinning="true"] {
+  color: green;
+}
+.turntable .platter-disc[data-spinning="true"][data-rpm="33"] {
+  -webkit-animation: rotating 550ms linear infinite 300ms 0 ease;
+  -moz-animation: rotating 550ms linear infinite 300ms 0 ease;
+  -ms-animation: rotating 550ms linear infinite 300ms 0 ease;
+  -webkit-animation: rotating 550ms linear infinite;
+  -moz-animation: rotating 550ms linear infinite;
+  -o-animation: rotating 550ms linear infinite;
+  animation: rotating 550ms linear infinite;
+}
+.turntable .platter-disc[data-spinning="true"][data-rpm="45"] {
+  -webkit-animation: rotating 750ms linear infinite 300ms 0 ease;
+  -moz-animation: rotating 750ms linear infinite 300ms 0 ease;
+  -ms-animation: rotating 750ms linear infinite 300ms 0 ease;
+  -webkit-animation: rotating 750ms linear infinite;
+  -moz-animation: rotating 750ms linear infinite;
+  -o-animation: rotating 750ms linear infinite;
+  animation: rotating 750ms linear infinite;
+}
+.turntable .rpm-buttons [data-rpm-active="true"] {
+  color: green;
+}
+.turntable .power-button[data-power="true"] {
+  color: green;
+}
+.turntable .startstop-button[data-startstop="true"] {
+  color: green;
+}
