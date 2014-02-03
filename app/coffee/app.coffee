@@ -14,4 +14,4 @@ requirejs ['createjs', 'modules/fighters/ryu/ryu'], ( createjs, Ryu ) ->
 	objStage = new createjs.Stage 'streetfighterGame'
 	window.ryu = new Ryu objStage
 	
-	console.log 'hi friendssss'
+	console.log window.ryu

@@ -38,4 +38,4 @@ Thumbs.db
 
 # Dev directories #
 ###################
-./node_modules/
+#./node_modules/
