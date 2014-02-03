@@ -1,0 +1,14 @@
+{
+    "name": "StreetFighter",
+    "description": "Web RTC based StreetFighter game with CreateJS",
+    "repository": "https://github.com/kfwerf/streetfighter.git",
+    "version": "0.0.0",
+    "author": "Kenneth van der Werf",
+    "devDependencies": {
+        "gulp": "latest",
+        "gulp-coffee": "latest",
+        "gulp-sass": "latest",
+        "gulp-util": "latest",
+        "gulp-watch": "latest"
+    }
+}
