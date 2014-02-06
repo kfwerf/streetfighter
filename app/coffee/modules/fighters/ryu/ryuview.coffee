@@ -6,6 +6,7 @@
 define ['modules/abstract/fighterview' ], ( FighterView ) ->
 	class RyuView extends FighterView
 		constructor: ( @objStage ) ->
+		    super()
 
 			
 

@@ -7,10 +7,13 @@ define ['createjs'], ( createjs ) ->
 	class FighterView
 		constructor: ( @objStage ) ->	
 			@objSpritesheet = {}
+			@objAnimations = {}
+			
 
-		loadSpritesheet: (strUrl) ->
-
-
-
+		setSpritesheet: (@objSpritesheet) ->
+            console.log @objAnimations, @
+            @objAnimations['idle'] = new createjs.Sprite @objSpritesheet, 'idle'
+            
+        
 
 

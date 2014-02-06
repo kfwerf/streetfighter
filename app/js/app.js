@@ -16,9 +16,7 @@ config = {
 
 require.config(config);
 
-requirejs(['createjs', 'modules/fighters/ryu/ryu'], function(createjs, Ryu) {
-  var objStage;
-  objStage = new createjs.Stage('streetfighterGame');
-  window.ryu = new Ryu(objStage);
-  return console.log('hi friendssss');
+requirejs(['createjs', 'modules/abstract/stage', 'modules/abstract/fighter'], function(createjs, Stage, Fighter) {
+  window.ryu = new Fighter('streetfighterGame');
+  return console.log(window.ryu);
 });

@@ -3,7 +3,7 @@
 @Name: FighterModel class
 @Description: Data for a fighter character
 ###
-define [], (  ) ->
+define ['createjs'], ( createjs ) ->
 	class FighterModel
 		constructor: ( @arrManifest ) ->
 			@strName = 'Fighter'
@@ -48,9 +48,10 @@ define [], (  ) ->
 		loadManifest: ( arrManifest ) ->
 			@loadQueue.loadManifest arrManifest
 		onManifestLoaded: () ->
-			# console.log this
 			@objSpritesheet = new createjs.SpriteSheet(@loadQueue.getResult 'SPRITESHEET_JSON')
-			console.log 'done'
+			console.log 'don'
+			@onManifestComplete()
+		onManifestComplete: () ->
 
 		# --
 		# Key handling
