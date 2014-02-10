@@ -11,8 +11,10 @@ define ['createjs'], ( createjs ) ->
 			
 
 		setSpritesheet: (@objSpritesheet) ->
-            console.log @objAnimations, @
-            @objAnimations['idle'] = new createjs.Sprite @objSpritesheet, 'idle'
+			self = @
+            # console.log new createjs.Sprite @objSpritesheet, 'idle'
+			@objAnimations['IDLE'] = new createjs.Sprite @objSpritesheet, 'idle'
+
             
         
 

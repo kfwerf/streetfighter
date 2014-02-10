@@ -7,4 +7,9 @@ define [ 'createjs' ], ( createjs ) ->
 	class Stage
 	    constructor: ( @strStageName = 'myGameStage' ) ->
 	        @objStage = new createjs.Stage @strStageName
+
+	        # createjs.Ticker.addEventListener("tick", handleTick);
+
+
 	        
+

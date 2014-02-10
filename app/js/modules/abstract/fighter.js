@@ -12,25 +12,22 @@ define(['modules/abstract/actor', 'modules/abstract/fightermodel', 'modules/abst
   return Fighter = (function(_super) {
     __extends(Fighter, _super);
 
-    function Fighter(strStageName, modelFighter, viewFighter) {
+    function Fighter(modelFighter, viewFighter) {
       var arrManifest, self;
-      this.strStageName = strStageName != null ? strStageName : 'myGameStage';
       this.modelFighter = modelFighter != null ? modelFighter : new FighterModel();
       this.viewFighter = viewFighter != null ? viewFighter : new FighterView();
       self = this;
       arrManifest = [
         {
-          id: 'SPRITESHEET_IMG',
+          id: 'SPRITESHEET_JSON',
           src: './data/fighters/ryu.json'
         }, {
-          id: 'SPRITESHEET_JSON',
+          id: 'SPRITESHEET_IMG',
           src: './data/fighters/ryu.png'
         }
       ];
-      this.setStage(this.strStageName);
       this.modelFighter.loadManifest(arrManifest);
       this.modelFighter.onManifestComplete = function() {
-        console.log(self.modelFighter.objSpritesheet);
         return self.viewFighter.setSpritesheet(self.modelFighter.objSpritesheet);
       };
     }

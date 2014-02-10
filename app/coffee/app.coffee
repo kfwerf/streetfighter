@@ -11,6 +11,7 @@ config =
 require.config config
 
 requirejs ['createjs', 'modules/abstract/stage', 'modules/abstract/fighter'], ( createjs, Stage, Fighter ) ->
-	window.ryu = new Fighter 'streetfighterGame'
+	window.stage = new Stage 'streetfighterGame'
+	window.ryu = new Fighter
 	
-	console.log window.ryu
+	window.stage.addChild window.ryu

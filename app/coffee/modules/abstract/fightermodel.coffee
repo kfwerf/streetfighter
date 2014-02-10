@@ -48,6 +48,7 @@ define ['createjs'], ( createjs ) ->
 		loadManifest: ( arrManifest ) ->
 			@loadQueue.loadManifest arrManifest
 		onManifestLoaded: () ->
+			console.log @loadQueue.getResult 'SPRITESHEET_JSON'
 			@objSpritesheet = new createjs.SpriteSheet(@loadQueue.getResult 'SPRITESHEET_JSON')
 			console.log 'don'
 			@onManifestComplete()

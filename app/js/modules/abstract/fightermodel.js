@@ -52,6 +52,7 @@ define(['createjs'], function(createjs) {
     };
 
     FighterModel.prototype.onManifestLoaded = function() {
+      console.log(this.loadQueue.getResult('SPRITESHEET_JSON'));
       this.objSpritesheet = new createjs.SpriteSheet(this.loadQueue.getResult('SPRITESHEET_JSON'));
       console.log('don');
       return this.onManifestComplete();

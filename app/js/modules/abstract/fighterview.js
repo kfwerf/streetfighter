@@ -14,9 +14,10 @@ define(['createjs'], function(createjs) {
     }
 
     FighterView.prototype.setSpritesheet = function(objSpritesheet) {
+      var self;
       this.objSpritesheet = objSpritesheet;
-      console.log(this.objAnimations, this);
-      return this.objAnimations['idle'] = new createjs.Sprite(this.objSpritesheet, 'idle');
+      self = this;
+      return this.objAnimations['IDLE'] = new createjs.Sprite(this.objSpritesheet, 'idle');
     };
 
     return FighterView;
