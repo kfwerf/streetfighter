@@ -3,17 +3,9 @@
 @Name: FighterModel class
 @Description: Data for a fighter character
 ###
-define ['createjs'], ( createjs ) ->
+define ['createjs', 'radio'], ( createjs, radio ) ->
 	class FighterModel
-		constructor: ( @arrManifest ) ->
-			@strName = 'Fighter'
-			@strDescription = 'A fighter from the pits of hell.'
-			@strUID = do () ->
-				numTotal = 10
-				numString = ''
-				for i in [0...numTotal] by 1 then numString = numString + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
-				numString
-
+		constructor: ( @strUID = '' ) ->
 			@loadQueue = new createjs.LoadQueue true
 
 			@numHealth = 100
@@ -27,32 +19,20 @@ define ['createjs'], ( createjs ) ->
 			@strState = 'IDLE' # UNCONCIOUS / DEAD / CROUCHING / JUMPING / DEFENDING / ATTACKING / STUNNED / SLOWED
 			@boolActive = true
 
-			@objKeyBindings =
-				37: 'LEFT'
-				38: 'UP'
-				39: 'RIGHT'
-				40: 'DOWN'
-				65: 'ACTION_ONE'
-			@objKeyMapping =
-				'MOVE_RIGHT': ['RIGHT'] 
-				'MOVE_LEFT': ['LEFT']
-				'JUMP': ['UP']
-				'CROUCH': ['DOWN']
-				'HADOUKEN': ['ACTION_ONE']
-
 			@loadQueue.on 'complete', @onManifestLoaded, this
 
 		# --
 		# Loading
 		# --
-		loadManifest: ( arrManifest ) ->
+		loadManifest: ( objManifest ) ->
+			arrManifest = do () ->
+				for strId of objManifest
+					id: strId
+					src: objManifest[strId]
 			@loadQueue.loadManifest arrManifest
 		onManifestLoaded: () ->
-			console.log @loadQueue.getResult 'SPRITESHEET_JSON'
-			@objSpritesheet = new createjs.SpriteSheet(@loadQueue.getResult 'SPRITESHEET_JSON')
-			console.log 'don'
-			@onManifestComplete()
-		onManifestComplete: () ->
+			@objSpritesheet = new createjs.SpriteSheet @loadQueue.getResult 'SPRITESHEET_JSON'
+			radio("#{@strUID}.MODEL.MANIFEST_LOADED").broadcast @loadQueue
 
 		# --
 		# Key handling

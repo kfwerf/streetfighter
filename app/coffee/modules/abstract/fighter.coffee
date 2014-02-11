@@ -3,26 +3,28 @@
 @Name: Fighter class
 @Description: Controller for fighter view and model
 ###
-define ['modules/abstract/actor', 'modules/abstract/fightermodel', 'modules/abstract/fighterview'], ( Actor, FighterModel, FighterView ) ->
+define ['radio', 'modules/abstract/actor', 'modules/abstract/fightermodel', 'modules/abstract/fighterview'], ( radio, Actor, FighterModel, FighterView ) ->
 	class Fighter extends Actor
-		constructor: ( @modelFighter = new FighterModel(), @viewFighter = new FighterView()  ) ->
-		    self = @
-		    arrManifest = [
-                {
-                    id: 'SPRITESHEET_JSON'
-                    src: './data/fighters/ryu.json'
-                } 
-                {
-                    id: 'SPRITESHEET_IMG'
-                    src: './data/fighters/ryu.png'
-                }
-		        ]
-		    
-		    @modelFighter.loadManifest arrManifest
-		    @modelFighter.onManifestComplete = () -> 
-		        self.viewFighter.setSpritesheet self.modelFighter.objSpritesheet
+		constructor: () ->
+			super()
+			
+			@strName = 'Fighter'
+			@strDescription = 'A fighter from the pits of hell.'
 
-		    
+			radio("#{@strUID}.MODEL.MANIFEST_LOADED").subscribe [ @onManifestLoaded, @ ]
+
+			@modelFighter = new FighterModel @strUID
+			@viewFighter = new FighterView @strUID
+
+			objManifest =
+				'SPRITESHEET_JSON': './data/fighters/ryu.json'
+				'SPRITESHEET_IMG': './data/fighters/ryu.png'
+
+			@modelFighter.loadManifest objManifest
+
+		onManifestLoaded: ( @loadQueue ) ->
+			console.log 'Loaded Manifest, adding it to the view'
+			@viewFighter.setSpritesheet @modelFighter.objSpritesheet
 
 		setMove: ( objMove ) ->
 			switch objMove.emit.type.toUpperCase()

@@ -7,30 +7,31 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['modules/abstract/actor', 'modules/abstract/fightermodel', 'modules/abstract/fighterview'], function(Actor, FighterModel, FighterView) {
+define(['radio', 'modules/abstract/actor', 'modules/abstract/fightermodel', 'modules/abstract/fighterview'], function(radio, Actor, FighterModel, FighterView) {
   var Fighter;
   return Fighter = (function(_super) {
     __extends(Fighter, _super);
 
-    function Fighter(modelFighter, viewFighter) {
-      var arrManifest, self;
-      this.modelFighter = modelFighter != null ? modelFighter : new FighterModel();
-      this.viewFighter = viewFighter != null ? viewFighter : new FighterView();
-      self = this;
-      arrManifest = [
-        {
-          id: 'SPRITESHEET_JSON',
-          src: './data/fighters/ryu.json'
-        }, {
-          id: 'SPRITESHEET_IMG',
-          src: './data/fighters/ryu.png'
-        }
-      ];
-      this.modelFighter.loadManifest(arrManifest);
-      this.modelFighter.onManifestComplete = function() {
-        return self.viewFighter.setSpritesheet(self.modelFighter.objSpritesheet);
+    function Fighter() {
+      var objManifest;
+      Fighter.__super__.constructor.call(this);
+      this.strName = 'Fighter';
+      this.strDescription = 'A fighter from the pits of hell.';
+      radio("" + this.strUID + ".MODEL.MANIFEST_LOADED").subscribe([this.onManifestLoaded, this]);
+      this.modelFighter = new FighterModel(this.strUID);
+      this.viewFighter = new FighterView(this.strUID);
+      objManifest = {
+        'SPRITESHEET_JSON': './data/fighters/ryu.json',
+        'SPRITESHEET_IMG': './data/fighters/ryu.png'
       };
+      this.modelFighter.loadManifest(objManifest);
     }
+
+    Fighter.prototype.onManifestLoaded = function(loadQueue) {
+      this.loadQueue = loadQueue;
+      console.log('Loaded Manifest, adding it to the view');
+      return this.viewFighter.setSpritesheet(this.modelFighter.objSpritesheet);
+    };
 
     Fighter.prototype.setMove = function(objMove) {
       switch (objMove.emit.type.toUpperCase()) {

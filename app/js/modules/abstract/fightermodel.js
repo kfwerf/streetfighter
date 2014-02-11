@@ -4,22 +4,11 @@
 @Name: FighterModel class
 @Description: Data for a fighter character
  */
-define(['createjs'], function(createjs) {
+define(['createjs', 'radio'], function(createjs, radio) {
   var FighterModel;
   return FighterModel = (function() {
-    function FighterModel(arrManifest) {
-      this.arrManifest = arrManifest;
-      this.strName = 'Fighter';
-      this.strDescription = 'A fighter from the pits of hell.';
-      this.strUID = (function() {
-        var i, numString, numTotal, _i;
-        numTotal = 10;
-        numString = '';
-        for (i = _i = 0; _i < numTotal; i = _i += 1) {
-          numString = numString + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return numString;
-      })();
+    function FighterModel(strUID) {
+      this.strUID = strUID != null ? strUID : '';
       this.loadQueue = new createjs.LoadQueue(true);
       this.numHealth = 100;
       this.numStamina = 100;
@@ -30,35 +19,29 @@ define(['createjs'], function(createjs) {
       };
       this.strState = 'IDLE';
       this.boolActive = true;
-      this.objKeyBindings = {
-        37: 'LEFT',
-        38: 'UP',
-        39: 'RIGHT',
-        40: 'DOWN',
-        65: 'ACTION_ONE'
-      };
-      this.objKeyMapping = {
-        'MOVE_RIGHT': ['RIGHT'],
-        'MOVE_LEFT': ['LEFT'],
-        'JUMP': ['UP'],
-        'CROUCH': ['DOWN'],
-        'HADOUKEN': ['ACTION_ONE']
-      };
       this.loadQueue.on('complete', this.onManifestLoaded, this);
     }
 
-    FighterModel.prototype.loadManifest = function(arrManifest) {
+    FighterModel.prototype.loadManifest = function(objManifest) {
+      var arrManifest;
+      arrManifest = (function() {
+        var strId, _results;
+        _results = [];
+        for (strId in objManifest) {
+          _results.push({
+            id: strId,
+            src: objManifest[strId]
+          });
+        }
+        return _results;
+      })();
       return this.loadQueue.loadManifest(arrManifest);
     };
 
     FighterModel.prototype.onManifestLoaded = function() {
-      console.log(this.loadQueue.getResult('SPRITESHEET_JSON'));
       this.objSpritesheet = new createjs.SpriteSheet(this.loadQueue.getResult('SPRITESHEET_JSON'));
-      console.log('don');
-      return this.onManifestComplete();
+      return radio("" + this.strUID + ".MODEL.MANIFEST_LOADED").broadcast(this.loadQueue);
     };
-
-    FighterModel.prototype.onManifestComplete = function() {};
 
     FighterModel.prototype.setNewKey = function(strKey) {};
 

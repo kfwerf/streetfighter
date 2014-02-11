@@ -3,19 +3,40 @@
 @Name: FighterView class
 @Description: View that handles the sprites in combination with CreateJS
 ###
-define ['createjs'], ( createjs ) ->
+define ['createjs', 'radio'], ( createjs, radio ) ->
 	class FighterView
-		constructor: ( @objStage ) ->	
+		constructor: ( @strUID = '' ) ->
+			@objContainer = new createjs.Container()
 			@objSpritesheet = {}
 			@objAnimations = {}
-			
+			@objKeyBindings =
+				37: 'LEFT'
+				38: 'UP'
+				39: 'RIGHT'
+				40: 'DOWN'
+				65: 'ACTION_ONE'
+			@objKeyMapping =
+				'MOVE_RIGHT': ['RIGHT'] 
+				'MOVE_LEFT': ['LEFT']
+				'JUMP': ['UP']
+				'CROUCH': ['DOWN']
+				'HADOUKEN': ['ACTION_ONE']
+
+			radio("#{@strUID}.VIEW.SPRITES_LOADED").subscribe [ onSpritesLoaded, @ ]
 
 		setSpritesheet: (@objSpritesheet) ->
-			self = @
-            # console.log new createjs.Sprite @objSpritesheet, 'idle'
+			# console.log new createjs.Sprite @objSpritesheet, 'idle'
 			@objAnimations['IDLE'] = new createjs.Sprite @objSpritesheet, 'idle'
 
-            
+			radio("#{@strUID}.VIEW.SPRITES_LOADED").broadcast [ @objAnimations, this ]
+
+		setAnimation: (strType = 'IDLE') ->
+			@objContainer.removeAllChildren()
+			@objContainer.addChild @objAnimations[strType]
         
+        onSpritesLoaded: ( objAnimations ) ->
+        	@setAnimation 'IDLE'
+
+
 
 

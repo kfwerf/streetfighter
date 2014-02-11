@@ -10,7 +10,12 @@ define(['createjs'], function(createjs) {
     function Stage(strStageName) {
       this.strStageName = strStageName != null ? strStageName : 'myGameStage';
       this.objStage = new createjs.Stage(this.strStageName);
+      createjs.Ticker.addEventListener('tick', this.onTick.bind(this));
     }
+
+    Stage.prototype.onTick = function() {
+      return this.objStage.update();
+    };
 
     return Stage;
 
