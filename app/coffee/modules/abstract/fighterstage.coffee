@@ -6,13 +6,11 @@
 define [ 'createjs', 'modules/abstract/stage' ], ( createjs, Stage ) ->
 	class FighterStage extends Stage
 		constructor: ( @strStageName = 'myGameStage' ) ->
-			super()
+			super(@strStageName)
 
 			@objFighters = {}
 
 		addFighter: ( Fighter ) ->
 			@objFighters[Fighter.strUID] = Fighter
-			console.log Fighter.objContainer
-			@objStage.addChild Fighter.objContainer
-
+			@objStage.addChild Fighter.viewFighter.objContainer
 

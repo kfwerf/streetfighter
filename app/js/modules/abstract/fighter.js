@@ -20,6 +20,7 @@ define(['radio', 'modules/abstract/actor', 'modules/abstract/fightermodel', 'mod
       radio("" + this.strUID + ".MODEL.MANIFEST_LOADED").subscribe([this.onManifestLoaded, this]);
       this.modelFighter = new FighterModel(this.strUID);
       this.viewFighter = new FighterView(this.strUID);
+      this.objContainer = this.viewFighter.objContainer;
       objManifest = {
         'SPRITESHEET_JSON': './data/fighters/ryu.json',
         'SPRITESHEET_IMG': './data/fighters/ryu.png'
@@ -29,7 +30,6 @@ define(['radio', 'modules/abstract/actor', 'modules/abstract/fightermodel', 'mod
 
     Fighter.prototype.onManifestLoaded = function(loadQueue) {
       this.loadQueue = loadQueue;
-      console.log('Loaded Manifest, adding it to the view');
       return this.viewFighter.setSpritesheet(this.modelFighter.objSpritesheet);
     };
 

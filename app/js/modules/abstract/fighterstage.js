@@ -14,14 +14,13 @@ define(['createjs', 'modules/abstract/stage'], function(createjs, Stage) {
 
     function FighterStage(strStageName) {
       this.strStageName = strStageName != null ? strStageName : 'myGameStage';
-      FighterStage.__super__.constructor.call(this);
+      FighterStage.__super__.constructor.call(this, this.strStageName);
       this.objFighters = {};
     }
 
     FighterStage.prototype.addFighter = function(Fighter) {
       this.objFighters[Fighter.strUID] = Fighter;
-      console.log(Fighter.objContainer);
-      return this.objStage.addChild(Fighter.objContainer);
+      return this.objStage.addChild(Fighter.viewFighter.objContainer);
     };
 
     return FighterStage;

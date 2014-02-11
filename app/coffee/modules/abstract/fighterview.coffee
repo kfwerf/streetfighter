@@ -22,20 +22,24 @@ define ['createjs', 'radio'], ( createjs, radio ) ->
 				'CROUCH': ['DOWN']
 				'HADOUKEN': ['ACTION_ONE']
 
-			radio("#{@strUID}.VIEW.SPRITES_LOADED").subscribe [ onSpritesLoaded, @ ]
+			console.log @objKeyBindings
+
+			radio("#{@strUID}.VIEW.SPRITES_LOADED").subscribe [ @onSpritesLoaded, @ ]
 
 		setSpritesheet: (@objSpritesheet) ->
 			# console.log new createjs.Sprite @objSpritesheet, 'idle'
-			@objAnimations['IDLE'] = new createjs.Sprite @objSpritesheet, 'idle'
+			@objAnimations['IDLE'] = new createjs.Sprite @objSpritesheet, 'IDLE'
+			@objAnimations['MOVE_FORWARD'] = new createjs.Sprite @objSpritesheet, 'MOVE_FORWARD'
+			@objAnimations['MOVE_BACKWARD'] = new createjs.Sprite @objSpritesheet, 'MOVE_BACKWARD'
 
 			radio("#{@strUID}.VIEW.SPRITES_LOADED").broadcast [ @objAnimations, this ]
+
+		onSpritesLoaded: ( objAnimations ) ->
+			@setAnimation 'IDLE'
 
 		setAnimation: (strType = 'IDLE') ->
 			@objContainer.removeAllChildren()
 			@objContainer.addChild @objAnimations[strType]
-        
-        onSpritesLoaded: ( objAnimations ) ->
-        	@setAnimation 'IDLE'
 
 
 

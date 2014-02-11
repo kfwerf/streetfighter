@@ -725,7 +725,9 @@
 ],
 "animations": {
 
-        "idle":[0,9],
+        "IDLE":[0,9],
+        "MOVE_FORWARD": [13, 23],
+        "MOVE_BACKWARD": [24, 34],
     
         "02593":[0], 
         "02594":[1], 

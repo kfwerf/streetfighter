@@ -26,13 +26,20 @@ define(['createjs', 'radio'], function(createjs, radio) {
         'CROUCH': ['DOWN'],
         'HADOUKEN': ['ACTION_ONE']
       };
-      radio("" + this.strUID + ".VIEW.SPRITES_LOADED").subscribe([onSpritesLoaded, this]);
+      console.log(this.objKeyBindings);
+      radio("" + this.strUID + ".VIEW.SPRITES_LOADED").subscribe([this.onSpritesLoaded, this]);
     }
 
     FighterView.prototype.setSpritesheet = function(objSpritesheet) {
       this.objSpritesheet = objSpritesheet;
-      this.objAnimations['IDLE'] = new createjs.Sprite(this.objSpritesheet, 'idle');
+      this.objAnimations['IDLE'] = new createjs.Sprite(this.objSpritesheet, 'IDLE');
+      this.objAnimations['MOVE_FORWARD'] = new createjs.Sprite(this.objSpritesheet, 'MOVE_FORWARD');
+      this.objAnimations['MOVE_BACKWARD'] = new createjs.Sprite(this.objSpritesheet, 'MOVE_BACKWARD');
       return radio("" + this.strUID + ".VIEW.SPRITES_LOADED").broadcast([this.objAnimations, this]);
+    };
+
+    FighterView.prototype.onSpritesLoaded = function(objAnimations) {
+      return this.setAnimation('IDLE');
     };
 
     FighterView.prototype.setAnimation = function(strType) {
@@ -40,11 +47,7 @@ define(['createjs', 'radio'], function(createjs, radio) {
         strType = 'IDLE';
       }
       this.objContainer.removeAllChildren();
-      return this.objContainer.addChild(this.objAnimations[strType]({
-        onSpritesLoaded: function(objAnimations) {
-          return this.setAnimation('IDLE');
-        }
-      }));
+      return this.objContainer.addChild(this.objAnimations[strType]);
     };
 
     return FighterView;

@@ -16,6 +16,8 @@ define ['radio', 'modules/abstract/actor', 'modules/abstract/fightermodel', 'mod
 			@modelFighter = new FighterModel @strUID
 			@viewFighter = new FighterView @strUID
 
+			@objContainer = @viewFighter.objContainer
+
 			objManifest =
 				'SPRITESHEET_JSON': './data/fighters/ryu.json'
 				'SPRITESHEET_IMG': './data/fighters/ryu.png'
@@ -23,7 +25,6 @@ define ['radio', 'modules/abstract/actor', 'modules/abstract/fightermodel', 'mod
 			@modelFighter.loadManifest objManifest
 
 		onManifestLoaded: ( @loadQueue ) ->
-			console.log 'Loaded Manifest, adding it to the view'
 			@viewFighter.setSpritesheet @modelFighter.objSpritesheet
 
 		setMove: ( objMove ) ->
