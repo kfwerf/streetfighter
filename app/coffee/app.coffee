@@ -4,9 +4,12 @@ config =
 		jquery: 'vendor/jquery'
 		radio: 'vendor/radio'
 		createjs: 'vendor/createjs'
+		keypress: 'vendor/keypress'
 	shim:
 		createjs:
 			exports: 'createjs'
+		keypress:
+			exports: 'keypress'
 
 require.config config
 
@@ -14,9 +17,7 @@ requirejs ['createjs', 'modules/abstract/fighterstage', 'modules/abstract/fighte
 	window.stage = new FighterStage 'streetfighterGame'
 
 	window.ryu = new Fighter
+
+	window.ryu.objContainer.y = 320
 	
 	window.stage.addFighter window.ryu
-
-	window.ken = new Fighter
-	
-	window.stage.addFighter window.ken

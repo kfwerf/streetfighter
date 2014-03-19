@@ -728,7 +728,17 @@
         "IDLE":[0,9],
         "MOVE_FORWARD": [13, 23],
         "MOVE_BACKWARD": [24, 34],
-    
+        "CROUCH": [35, 40, "CROUCHING"],
+        "CROUCHING": [43, 46],
+        "JUMP": [51, 61, "IDLE"],
+
+        "PUNCH": [288, 292, "IDLE"],
+        "PUNCH_DUO": [288, 292, "PUNCH_B"],
+        "PUNCH_TRIO": ["PUNCH", "PUNCH_B", "PUNCH_C", "IDLE"],
+        
+        "PUNCH_B": [292, 299, "IDLE"],
+        "PUNCH_C": [299, 310],
+
         "02593":[0], 
         "02594":[1], 
         "02595":[2], 

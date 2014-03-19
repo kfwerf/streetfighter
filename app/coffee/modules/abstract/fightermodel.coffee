@@ -12,6 +12,10 @@ define ['createjs', 'radio'], ( createjs, radio ) ->
 			@numStamina = 100
 			@numSpecial = 1000
 			@numSpeed = 10
+
+			@objDirection =
+				x: 0
+				y: 0
 			
 			@objDefenses =
 				PHYSICAL: 0

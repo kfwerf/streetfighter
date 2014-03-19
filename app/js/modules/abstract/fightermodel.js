@@ -14,6 +14,10 @@ define(['createjs', 'radio'], function(createjs, radio) {
       this.numStamina = 100;
       this.numSpecial = 1000;
       this.numSpeed = 10;
+      this.objDirection = {
+        x: 0,
+        y: 0
+      };
       this.objDefenses = {
         PHYSICAL: 0
       };
