@@ -1,12 +1,11 @@
-var config;
-
-config = {
+require.config({
   baseUrl: 'js',
   paths: {
     jquery: 'vendor/jquery',
     radio: 'vendor/radio',
     createjs: 'vendor/createjs',
-    keypress: 'vendor/keypress'
+    keypress: 'vendor/keypress',
+    rsvp: 'vendor/rsvp'
   },
   shim: {
     createjs: {
@@ -16,13 +15,10 @@ config = {
       exports: 'keypress'
     }
   }
-};
+});
 
-require.config(config);
-
-requirejs(['createjs', 'modules/abstract/fighterstage', 'modules/abstract/fighter'], function(createjs, FighterStage, Fighter) {
-  window.stage = new FighterStage('streetfighterGame');
-  window.ryu = new Fighter;
-  window.ryu.objContainer.y = 320;
-  return window.stage.addFighter(window.ryu);
+requirejs(['modules/abstract/actor', 'modules/abstract/stage'], function(Actor, Stage) {
+  window.stage = new Stage('theStage');
+  window.actor = new Actor();
+  return window.stage.addActor(window.actor);
 });

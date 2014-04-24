@@ -1,23 +1,21 @@
-config = 
+require.config
 	baseUrl: 'js'
 	paths: 
 		jquery: 'vendor/jquery'
 		radio: 'vendor/radio'
 		createjs: 'vendor/createjs'
 		keypress: 'vendor/keypress'
+		rsvp: 'vendor/rsvp'
 	shim:
 		createjs:
 			exports: 'createjs'
 		keypress:
 			exports: 'keypress'
 
-require.config config
-
-requirejs ['createjs', 'modules/abstract/fighterstage', 'modules/abstract/fighter'], ( createjs, FighterStage, Fighter ) ->
-	window.stage = new FighterStage 'streetfighterGame'
-
-	window.ryu = new Fighter
-
-	window.ryu.objContainer.y = 320
+requirejs ['modules/abstract/actor', 'modules/abstract/stage'], ( Actor, Stage ) ->
 	
-	window.stage.addFighter window.ryu
+	window.stage = new Stage( 'theStage' )
+
+	window.actor = new Actor()
+
+	window.stage.addActor window.actor

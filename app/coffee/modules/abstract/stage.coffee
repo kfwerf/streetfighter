@@ -1,17 +1,35 @@
 ###
-@Author: Kenneth van der Werf
-@Name: Stage class
-@Description: Stage that is handling all the actors
+title: Stage
+description: Stage that has actors it observes
+dependencies: 
+author: Kenneth van der Werf
 ###
 define [ 'createjs' ], ( createjs ) ->
 	class Stage
-		constructor: ( @strStageName = 'myGameStage' ) ->
+		constructor: ( @strStageName = 'theStage' ) ->
+			
+
+			# Core component for the stage
+
 			@objStage = new createjs.Stage @strStageName
 
-			createjs.Ticker.addEventListener 'tick', @onTick.bind( this )
 
-		onTick: () ->
+			# All actors on the stage
+
+			@objActors = {}
+
+
+			# Looping the tick
+
+			createjs.Ticker.addEventListener 'tick', @theTick.bind( this )
+
+
+		theTick: () ->
 			@objStage.update()
 
-	        
 
+		# Adding actor classes to the stage
+
+		addActor: ( objActor ) ->
+			@objActors[ 'strUid' ] = objActor
+			@objStage.addChild @objActors[ 'strUid' ].getActor()
