@@ -18,4 +18,5 @@ requirejs ['modules/abstract/actor', 'modules/abstract/stage'], ( Actor, Stage )
 
 	window.actor = new Actor()
 
-	window.stage.addActor window.actor
+	window.stage.addChild window.actor
+

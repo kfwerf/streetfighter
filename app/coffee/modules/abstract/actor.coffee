@@ -4,10 +4,11 @@ description: Actor that is subscribed to the stage for updates
 dependencies: Event Dispatcher
 author: Kenneth van der Werf
 ###
-define ['createjs', 'keypress', 'rsvp', 'modules/abstract/eventdispatcher'], ( createjs, keypress, EventDispatcher, Movement ) ->
-	class classActor extends EventDispatcher
+define ['createjs', 'modules/abstract/movement'], ( createjs, Movement ) ->
+	class classActor extends createjs.Container
 		constructor: ->
-			
+			@initialize()
+
 
 			# Describing the actor
 			
@@ -33,21 +34,18 @@ define ['createjs', 'keypress', 'rsvp', 'modules/abstract/eventdispatcher'], ( c
 
 			@strCurrentState = 'IDLE' # IDLE, MOVING, JUMPING, DEAD. Seperate classes for states and how they affect
 
-
-			# Connection to the stage
-
-			@objContainer = new createjs.Container()
-
 			
 			# Hitpiece
 
-			@numHitWidth = 30
-			@numHitHeight = 90
+			@numWidth = 30
+			@numHeight = 90
 			
 			@objHitArea = new createjs.Shape()
-			@objHitArea.graphics.beginStroke('red').drawRect( 0, 0, @numHitWidth, @numHitHeight )
-			@objContainer.addChild @objHitArea
+			@objHitArea.graphics.beginStroke('red').drawRect( 0, 0, @numWidth, @numHeight )
+			@addChild @objHitArea
 
-		getActor: ->
-			@objContainer
+
+			# Movement module
+
+			@objMovement = new Movement @
 

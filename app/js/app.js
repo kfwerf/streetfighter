@@ -20,5 +20,5 @@ require.config({
 requirejs(['modules/abstract/actor', 'modules/abstract/stage'], function(Actor, Stage) {
   window.stage = new Stage('theStage');
   window.actor = new Actor();
-  return window.stage.addActor(window.actor);
+  return window.stage.addChild(window.actor);
 });

@@ -5,18 +5,9 @@ dependencies:
 author: Kenneth van der Werf
 ###
 define [ 'createjs' ], ( createjs ) ->
-	class Stage
+	class Stage extends createjs.Stage
 		constructor: ( @strStageName = 'theStage' ) ->
-			
-
-			# Core component for the stage
-
-			@objStage = new createjs.Stage @strStageName
-
-
-			# All actors on the stage
-
-			@objActors = {}
+			@initialize @strStageName
 
 
 			# Looping the tick
@@ -25,7 +16,7 @@ define [ 'createjs' ], ( createjs ) ->
 
 
 		theTick: () ->
-			@objStage.update()
+			@update()
 
 
 		# Adding actor classes to the stage

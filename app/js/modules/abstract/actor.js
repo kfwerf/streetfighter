@@ -8,12 +8,13 @@ author: Kenneth van der Werf
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['createjs', 'keypress', 'rsvp', 'modules/abstract/eventdispatcher'], function(createjs, keypress, EventDispatcher, MoveController) {
+define(['createjs', 'modules/abstract/movement'], function(createjs, Movement) {
   var classActor;
   return classActor = (function(_super) {
     __extends(classActor, _super);
 
     function classActor() {
+      this.initialize();
       this.strName = 'John Doe';
       this.strDescription = 'An average guy.';
       this.strUid = (function() {
@@ -31,19 +32,15 @@ define(['createjs', 'keypress', 'rsvp', 'modules/abstract/eventdispatcher'], fun
       this.numSpecial = 100;
       this.numSpeed = 10;
       this.strCurrentState = 'IDLE';
-      this.objContainer = new createjs.Container();
-      this.numHitWidth = 30;
-      this.numHitHeight = 90;
+      this.numWidth = 30;
+      this.numHeight = 90;
       this.objHitArea = new createjs.Shape();
-      this.objHitArea.graphics.beginStroke('red').drawRect(0, 0, this.numHitWidth, this.numHitHeight);
-      this.objContainer.addChild(this.objHitArea);
+      this.objHitArea.graphics.beginStroke('red').drawRect(0, 0, this.numWidth, this.numHeight);
+      this.addChild(this.objHitArea);
+      this.objMovement = new Movement(this);
     }
-
-    classActor.prototype.getActor = function() {
-      return this.objContainer;
-    };
 
     return classActor;
 
-  })(EventDispatcher);
+  })(createjs.Container);
 });
