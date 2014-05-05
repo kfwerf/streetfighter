@@ -9,6 +9,7 @@ define [ 'createjs' ], ( createjs ) ->
 		constructor: ( @strStageName = 'theStage' ) ->
 			@initialize @strStageName
 
+			@objActors = {}
 
 			# Looping the tick
 
@@ -21,6 +22,11 @@ define [ 'createjs' ], ( createjs ) ->
 
 		# Adding actor classes to the stage
 
-		addActor: ( objActor ) ->
-			@objActors[ 'strUid' ] = objActor
-			@objStage.addChild @objActors[ 'strUid' ].getActor()
+		addActor: ( objActor, numX = 0, numY = 0 ) ->
+			strUid = objActor.strUid
+
+			@objActors[ strUid ] = objActor
+			@addChild @objActors[ strUid ]
+
+			objActor.x = numX
+			objActor.y = numY

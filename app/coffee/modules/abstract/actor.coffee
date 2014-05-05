@@ -29,7 +29,7 @@ define ['createjs', 'modules/abstract/movement'], ( createjs, Movement ) ->
 			@numSpecial = 100
 			@numSpeed = 10
 
-
+			
 			# States for any actor
 
 			@strCurrentState = 'IDLE' # IDLE, MOVING, JUMPING, DEAD. Seperate classes for states and how they affect

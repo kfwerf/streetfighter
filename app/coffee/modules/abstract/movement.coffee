@@ -4,10 +4,26 @@ description: Actor that is subscribed to the stage for updates
 dependencies: Event Dispatcher, Actor parent
 author: Kenneth van der Werf
 ###
-define ['createjs', 'keypress'], ( createjs, keypress ) ->
+define ['createjs', 'keypress', 'modules/movement/forward', 'modules/movement/backward'], ( createjs, keypress, classMoveForward, classMoveBackward ) ->
 	class classMovement extends createjs.EventDispatcher
 		constructor: ( @objContainer ) ->
 			super()
+			@initialize( @prototype )
+
+			@evtUpdate = new createjs.Event 'update'
+
+
+			# Move classes
+
+			@objMoveForward = new classMoveForward @objContainer
+			@objMoveBackward = new classMoveBackward @objContainer
+
+			# States
+
+			@boolJumping = false
+			@boolMoving = false
+			@boolCrouching = false
+
 
 			# Key bindings for combinations
 
@@ -19,31 +35,57 @@ define ['createjs', 'keypress'], ( createjs, keypress ) ->
 				'forward': 'right'
 				'down': 'down'
 				'action_one': 'a'
+				'action_two': 's'
 
 
 			# Moves for any actor
 
-			@numSpeed = 10
-			@numIncrementX = 0
-			@numIncrementY = 0
+			@numSpeed = 1
+			@numGravity = .5
+			@numVelocityY = 0
+			
+			@numCeiling = 0
+			@numFloor = 0
+
+
+			# Bindings
 
 			@objMoves =
 				'MOVE_FORWARD':
 					'keys': @getKeys 'forward'
 					'prevent_repeat': true
 					'on_keydown': ->
-						@numIncrementX = @numSpeed
+						@objMoveForward.playMove()
 					'on_keyup': ->
-						@numIncrementX = 0
+						@objMoveForward.stopMove()
 					'this': @
 				
 				'MOVE_BACKWARD':
 					'keys': @getKeys 'backward'
 					'prevent_repeat': true
 					'on_keydown': ->
-						@numIncrementX = -@numSpeed
+						@objMoveBackward.playMove()
 					'on_keyup': ->
-						@numIncrementX = 0
+						@objMoveBackward.stopMove()
+					'this': @
+				'CROUCH':
+					'keys': @getKeys 'down'
+					'prevent_repeat': true
+					'on_keydown': ->
+						# @strCurrentState = 'CROUCHING'
+					'on_keyup': ->
+						# @strCurrentState = 'IDLE'
+					'this': @
+				'JUMP':
+					'keys': @getKeys 'up'
+					'prevent_repeat': true
+					'on_keydown': ->
+						@boolJumping = true
+						@numVelocityY = -20
+						# @numIncrementY = @
+					'on_keyup': ->
+						# @boolJumping = false
+						# @strCurrentState = 'IDLE'
 					'this': @
 
 			for strKey, objProperties of @objMoves			
@@ -53,20 +95,37 @@ define ['createjs', 'keypress'], ( createjs, keypress ) ->
 			# Initiate the tick
 
 			createjs.Ticker.addEventListener 'tick', @theTick.bind(@)
-
+			# createjs.Stage.addEventListener
 
 		# The tick, loops
 			
 		theTick: ( e ) ->
 			@objStage = @objContainer.getStage()
-			if not @objStage then return false
+
+			if @boolJumping
+				# Try some jumping
+				@numVelocityY += @numGravity
+				@objContainer.y += @numVelocityY
+				# Determine floor
+
+			# @doMoveLeftRight()
+			# @doMoveUp()
+
+
+		doJump: ( e ) ->
+			false unless @objStage and @boolJumping
+
+			@numHeight = @objStage.canvas.numHeight
+
+			numNewY = @objContainer.y + @numIncrementY
+
+
+		doMoveX: ( e ) ->
+			false unless @objStage and @boolMoving
 
 			@numWidth = @objStage.canvas.width
-			@numHeight = @objStage.canvas.height
 
 			numNewX = @objContainer.x + @numIncrementX
-			numNewY = @objContainer.x + @numIncrementY
-
 			if numNewX > 0 and numNewX < @numWidth - @objContainer.numWidth then @objContainer.x = numNewX
 
 		# Util functions

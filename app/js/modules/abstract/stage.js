@@ -16,6 +16,7 @@ define(['createjs'], function(createjs) {
     function Stage(strStageName) {
       this.strStageName = strStageName != null ? strStageName : 'theStage';
       this.initialize(this.strStageName);
+      this.objActors = {};
       createjs.Ticker.addEventListener('tick', this.theTick.bind(this));
     }
 
@@ -23,9 +24,19 @@ define(['createjs'], function(createjs) {
       return this.update();
     };
 
-    Stage.prototype.addActor = function(objActor) {
-      this.objActors['strUid'] = objActor;
-      return this.objStage.addChild(this.objActors['strUid'].getActor());
+    Stage.prototype.addActor = function(objActor, numX, numY) {
+      var strUid;
+      if (numX == null) {
+        numX = 0;
+      }
+      if (numY == null) {
+        numY = 0;
+      }
+      strUid = objActor.strUid;
+      this.objActors[strUid] = objActor;
+      this.addChild(this.objActors[strUid]);
+      objActor.x = numX;
+      return objActor.y = numY;
     };
 
     return Stage;
