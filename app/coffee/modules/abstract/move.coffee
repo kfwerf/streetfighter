@@ -6,21 +6,16 @@ author: Kenneth van der Werf
 ###
 define ['createjs'], ( createjs ) ->
 	class classMove extends createjs.EventDispatcher
-		constructor: ( @objContainer, @numSpeed = 5 ) ->
+		constructor: ( @objContainer, @objBounds, @numSpeed = 10 ) ->
 			return false unless @objContainer
 			
 			@boolActive = false
-			@numSpeed = 5
 			@boolFacingRight = true
 			createjs.Ticker.addEventListener 'tick', @theTick.bind(@)
 		
 		theTick: ->
 			@objStage = @objContainer.getStage()
 			return false unless @boolActive and @objStage
-
-			if not @boolDebug
-				@boolDebug = true
-				console.debug @objContainer, @objStage
 			@doMove.call @
 
 		doMove: -> true

@@ -1,28 +1,26 @@
 ###
-title: Actor
-description: Actor that is subscribed to the stage for updates
-dependencies: Event Dispatcher, Actor parent
+title: Movement
+description: Movement controller for actor, uses modular moves
+dependencies: Event Dispatcher, Actor parent, Moves
 author: Kenneth van der Werf
 ###
-define ['createjs', 'keypress', 'modules/movement/forward', 'modules/movement/backward'], ( createjs, keypress, classMoveForward, classMoveBackward ) ->
+define ['createjs', 'keypress', 'underscore', 'modules/movement/forward', 'modules/movement/backward', 'modules/movement/jump'], ( createjs, keypress, _, classMoveForward, classMoveBackward, classMoveJump ) ->
 	class classMovement extends createjs.EventDispatcher
 		constructor: ( @objContainer ) ->
 			super()
 			@initialize( @prototype )
+			return false unless @objContainer
 
 			@evtUpdate = new createjs.Event 'update'
 
 
-			# Move classes
+			# Boundaries
 
-			@objMoveForward = new classMoveForward @objContainer
-			@objMoveBackward = new classMoveBackward @objContainer
-
-			# States
-
-			@boolJumping = false
-			@boolMoving = false
-			@boolCrouching = false
+			@objBounds =
+				numLeft: 0
+				numRight: @objContainer.getStage().canvas.width - @objContainer.numWidth # Might need to change later
+				numTop: 0
+				numBottom: @objContainer.getStage().canvas.height - @objContainer.numHeight
 
 
 			# Key bindings for combinations
@@ -38,95 +36,37 @@ define ['createjs', 'keypress', 'modules/movement/forward', 'modules/movement/ba
 				'action_two': 's'
 
 
-			# Moves for any actor
-
-			@numSpeed = 1
-			@numGravity = .5
-			@numVelocityY = 0
-			
-			@numCeiling = 0
-			@numFloor = 0
-
-
 			# Bindings
 
 			@objMoves =
-				'MOVE_FORWARD':
-					'keys': @getKeys 'forward'
-					'prevent_repeat': true
-					'on_keydown': ->
-						@objMoveForward.playMove()
-					'on_keyup': ->
-						@objMoveForward.stopMove()
-					'this': @
+				'MOVE_FORWARD': @setMove 'forward', classMoveForward
+				'MOVE_BACKWARD': @setMove 'backward', classMoveBackward
+				'JUMP': @setMove 'up', classMoveJump
+
+		
+		# Easier factory for creating moves
+
+		setMove: ( strCombination, objMove ) ->
+
+			objModule = new objMove @objContainer, @objBounds
+			strName = objModule.strName
+			strDescription = objModule.strDescription
+
+			objNewMove =
+				'module': objModule
+				'name': strName
+				'description': strDescription
 				
-				'MOVE_BACKWARD':
-					'keys': @getKeys 'backward'
-					'prevent_repeat': true
-					'on_keydown': ->
-						@objMoveBackward.playMove()
-					'on_keyup': ->
-						@objMoveBackward.stopMove()
-					'this': @
-				'CROUCH':
-					'keys': @getKeys 'down'
-					'prevent_repeat': true
-					'on_keydown': ->
-						# @strCurrentState = 'CROUCHING'
-					'on_keyup': ->
-						# @strCurrentState = 'IDLE'
-					'this': @
-				'JUMP':
-					'keys': @getKeys 'up'
-					'prevent_repeat': true
-					'on_keydown': ->
-						@boolJumping = true
-						@numVelocityY = -20
-						# @numIncrementY = @
-					'on_keyup': ->
-						# @boolJumping = false
-						# @strCurrentState = 'IDLE'
-					'this': @
+				'keys': @getKeys strCombination
+				'prevent_repeat': true
+				'on_keydown': -> 
+					objModule.playMove()
+				'on_keyup': -> objModule.stopMove()
+				'this': @
 
-			for strKey, objProperties of @objMoves			
-				@objKeyListener.register_combo @objMoves[strKey]
+			@objKeyListener.register_combo objNewMove
 
-
-			# Initiate the tick
-
-			createjs.Ticker.addEventListener 'tick', @theTick.bind(@)
-			# createjs.Stage.addEventListener
-
-		# The tick, loops
-			
-		theTick: ( e ) ->
-			@objStage = @objContainer.getStage()
-
-			if @boolJumping
-				# Try some jumping
-				@numVelocityY += @numGravity
-				@objContainer.y += @numVelocityY
-				# Determine floor
-
-			# @doMoveLeftRight()
-			# @doMoveUp()
-
-
-		doJump: ( e ) ->
-			false unless @objStage and @boolJumping
-
-			@numHeight = @objStage.canvas.numHeight
-
-			numNewY = @objContainer.y + @numIncrementY
-
-
-		doMoveX: ( e ) ->
-			false unless @objStage and @boolMoving
-
-			@numWidth = @objStage.canvas.width
-
-			numNewX = @objContainer.x + @numIncrementX
-			if numNewX > 0 and numNewX < @numWidth - @objContainer.numWidth then @objContainer.x = numNewX
+			objNewMove
 
 		# Util functions
 

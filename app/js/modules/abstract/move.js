@@ -13,14 +13,14 @@ define(['createjs'], function(createjs) {
   return classMove = (function(_super) {
     __extends(classMove, _super);
 
-    function classMove(objContainer, numSpeed) {
+    function classMove(objContainer, objBounds, numSpeed) {
       this.objContainer = objContainer;
-      this.numSpeed = numSpeed != null ? numSpeed : 5;
+      this.objBounds = objBounds;
+      this.numSpeed = numSpeed != null ? numSpeed : 10;
       if (!this.objContainer) {
         return false;
       }
       this.boolActive = false;
-      this.numSpeed = 5;
       this.boolFacingRight = true;
       createjs.Ticker.addEventListener('tick', this.theTick.bind(this));
     }
@@ -29,10 +29,6 @@ define(['createjs'], function(createjs) {
       this.objStage = this.objContainer.getStage();
       if (!(this.boolActive && this.objStage)) {
         return false;
-      }
-      if (!this.boolDebug) {
-        this.boolDebug = true;
-        console.debug(this.objContainer, this.objStage);
       }
       return this.doMove.call(this);
     };

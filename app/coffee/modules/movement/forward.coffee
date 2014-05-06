@@ -6,11 +6,10 @@ author: Kenneth van der Werf
 ###
 define ['createjs', 'modules/abstract/move'], ( createjs, classMove ) ->
 	class classMoveForward extends classMove
-		constructor: ( @objContainer, @numSpeed ) ->
-			super( @objContainer, @numSpeed )
+		constructor: ( @objContainer, @objBounds, @numSpeed = 10 ) ->
+			super( @objContainer, @objBounds, @numSpeed )
 
-		doMove: ->			
-			if @boolFacingRight
-				@objContainer.x += @numSpeed
-			else 
-				@objContainer.x -= @numSpeed
+		doMove: ->
+			numNewAmount = if @boolFacingRight then @objContainer.x + @numSpeed else @objContainer.x - @numSpeed
+
+			if numNewAmount < @objBounds.numRight and numNewAmount > @objBounds.numLeft then @objContainer.x = numNewAmount

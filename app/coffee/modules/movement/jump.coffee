@@ -9,12 +9,23 @@ define ['createjs', 'modules/abstract/move'], ( createjs, classMove ) ->
 		constructor: ( @objContainer, @numSpeed ) ->
 			super( @objContainer, @numSpeed )
 
-			@numGravity = 3
+			@numGround = @objContainer.y
+			@numCeil = @objBounds.numTop
+
+			@numGravity = 2
 
 		doMove: ->			
 			@numVelocity += @numGravity
 			@objContainer.y += @numVelocity
 
+			if @objContainer.y > @numGround
+				@boolActive = false
+				@objContainer.y = @numGround
+
 		playMove: ->
-			@numVelocity = -20
-			@boolActive = true
+			if not @boolActive
+				@numVelocity = -20
+				@boolActive = true
+		
+		stopMove: -> false # Disable this from doing the normal move
+

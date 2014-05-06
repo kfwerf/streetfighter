@@ -6,7 +6,7 @@ author: Kenneth van der Werf
 ###
 define ['createjs', 'modules/abstract/movement'], ( createjs, Movement ) ->
 	class classActor extends createjs.Container
-		constructor: ->
+		constructor: ( numX, numY ) ->
 			@initialize()
 
 
@@ -34,12 +34,20 @@ define ['createjs', 'modules/abstract/movement'], ( createjs, Movement ) ->
 
 			@strCurrentState = 'IDLE' # IDLE, MOVING, JUMPING, DEAD. Seperate classes for states and how they affect
 
+
+		initializeActor: ( numX, numY ) ->
+
 			
-			# Hitpiece
+			# Set x,y, width and height
 
 			@numWidth = 30
 			@numHeight = 90
+			@.x = numX
+			@.y = numY
+
 			
+			# Hitpiece
+
 			@objHitArea = new createjs.Shape()
 			@objHitArea.graphics.beginStroke('red').drawRect( 0, 0, @numWidth, @numHeight )
 			@addChild @objHitArea

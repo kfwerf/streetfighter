@@ -13,7 +13,7 @@ define(['createjs', 'modules/abstract/movement'], function(createjs, Movement) {
   return classActor = (function(_super) {
     __extends(classActor, _super);
 
-    function classActor() {
+    function classActor(numX, numY) {
       this.initialize();
       this.strName = 'John Doe';
       this.strDescription = 'An average guy.';
@@ -32,13 +32,18 @@ define(['createjs', 'modules/abstract/movement'], function(createjs, Movement) {
       this.numSpecial = 100;
       this.numSpeed = 10;
       this.strCurrentState = 'IDLE';
+    }
+
+    classActor.prototype.initializeActor = function(numX, numY) {
       this.numWidth = 30;
       this.numHeight = 90;
+      this.x = numX;
+      this.y = numY;
       this.objHitArea = new createjs.Shape();
       this.objHitArea.graphics.beginStroke('red').drawRect(0, 0, this.numWidth, this.numHeight);
       this.addChild(this.objHitArea);
-      this.objMovement = new Movement(this);
-    }
+      return this.objMovement = new Movement(this);
+    };
 
     return classActor;
 

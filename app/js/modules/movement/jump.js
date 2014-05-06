@@ -17,17 +17,29 @@ define(['createjs', 'modules/abstract/move'], function(createjs, classMove) {
       this.objContainer = objContainer;
       this.numSpeed = numSpeed;
       classMoveJump.__super__.constructor.call(this, this.objContainer, this.numSpeed);
-      this.numGravity = 3;
+      this.numGround = this.objContainer.y;
+      this.numCeil = this.objBounds.numTop;
+      this.numGravity = 2;
     }
 
     classMoveJump.prototype.doMove = function() {
       this.numVelocity += this.numGravity;
-      return this.objContainer.y += this.numVelocity;
+      this.objContainer.y += this.numVelocity;
+      if (this.objContainer.y > this.numGround) {
+        this.boolActive = false;
+        return this.objContainer.y = this.numGround;
+      }
     };
 
     classMoveJump.prototype.playMove = function() {
-      this.numVelocity = -20;
-      return this.boolActive = true;
+      if (!this.boolActive) {
+        this.numVelocity = -20;
+        return this.boolActive = true;
+      }
+    };
+
+    classMoveJump.prototype.stopMove = function() {
+      return false;
     };
 
     return classMoveJump;

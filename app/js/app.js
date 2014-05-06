@@ -5,7 +5,8 @@ require.config({
     radio: 'vendor/radio',
     createjs: 'vendor/createjs',
     keypress: 'vendor/keypress',
-    rsvp: 'vendor/rsvp'
+    rsvp: 'vendor/rsvp',
+    underscore: 'vendor/underscore'
   },
   shim: {
     createjs: {
@@ -19,6 +20,7 @@ require.config({
 
 requirejs(['modules/abstract/actor', 'modules/abstract/stage'], function(Actor, Stage) {
   window.stage = new Stage('theStage');
-  window.actor = new Actor(0, stage.canvas.height - window.actor.numHeight);
-  return window.stage.addChild(window.actor);
+  window.actor = new Actor(this);
+  window.stage.addActor(window.actor);
+  return window.actor.initializeActor(0, 300);
 });

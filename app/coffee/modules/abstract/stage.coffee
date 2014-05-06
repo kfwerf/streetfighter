@@ -11,6 +11,14 @@ define [ 'createjs' ], ( createjs ) ->
 
 			@objActors = {}
 
+
+
+			@objGround = new createjs.Shape()
+			@objGround.graphics.beginStroke('black').drawRect( 0, 0, @canvas.width, 1 )
+			@addChild @objGround
+
+			@objGround.y = 390
+
 			# Looping the tick
 
 			createjs.Ticker.addEventListener 'tick', @theTick.bind( this )

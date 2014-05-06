@@ -6,6 +6,7 @@ require.config
 		createjs: 'vendor/createjs'
 		keypress: 'vendor/keypress'
 		rsvp: 'vendor/rsvp'
+		underscore: 'vendor/underscore'
 	shim:
 		createjs:
 			exports: 'createjs'
@@ -15,8 +16,12 @@ require.config
 requirejs ['modules/abstract/actor', 'modules/abstract/stage'], ( Actor, Stage ) ->
 	
 	window.stage = new Stage( 'theStage' )
-	window.actor = new Actor 0, stage.canvas.height - window.actor.numHeight
+	window.actor = new Actor @
 
-	window.stage.addChild window.actor
+	window.stage.addActor window.actor
+
+	window.actor.initializeActor 0, 300
+
+	# actor.y = 300
 
 	

@@ -17,6 +17,10 @@ define(['createjs'], function(createjs) {
       this.strStageName = strStageName != null ? strStageName : 'theStage';
       this.initialize(this.strStageName);
       this.objActors = {};
+      this.objGround = new createjs.Shape();
+      this.objGround.graphics.beginStroke('black').drawRect(0, 0, this.canvas.width, 1);
+      this.addChild(this.objGround);
+      this.objGround.y = 390;
       createjs.Ticker.addEventListener('tick', this.theTick.bind(this));
     }
 

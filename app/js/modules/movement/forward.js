@@ -13,17 +13,18 @@ define(['createjs', 'modules/abstract/move'], function(createjs, classMove) {
   return classMoveForward = (function(_super) {
     __extends(classMoveForward, _super);
 
-    function classMoveForward(objContainer, numSpeed) {
+    function classMoveForward(objContainer, objBounds, numSpeed) {
       this.objContainer = objContainer;
-      this.numSpeed = numSpeed;
-      classMoveForward.__super__.constructor.call(this, this.objContainer, this.numSpeed);
+      this.objBounds = objBounds;
+      this.numSpeed = numSpeed != null ? numSpeed : 10;
+      classMoveForward.__super__.constructor.call(this, this.objContainer, this.objBounds, this.numSpeed);
     }
 
     classMoveForward.prototype.doMove = function() {
-      if (this.boolFacingRight) {
-        return this.objContainer.x += this.numSpeed;
-      } else {
-        return this.objContainer.x -= this.numSpeed;
+      var numNewAmount;
+      numNewAmount = this.boolFacingRight ? this.objContainer.x + this.numSpeed : this.objContainer.x - this.numSpeed;
+      if (numNewAmount < this.objBounds.numRight && numNewAmount > this.objBounds.numLeft) {
+        return this.objContainer.x = numNewAmount;
       }
     };
 
