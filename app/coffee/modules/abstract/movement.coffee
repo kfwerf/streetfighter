@@ -42,6 +42,7 @@ define ['createjs', 'keypress', 'underscore', 'modules/movement/forward', 'modul
 				'MOVE_FORWARD': @setMove 'forward', classMoveForward
 				'MOVE_BACKWARD': @setMove 'backward', classMoveBackward
 				'JUMP': @setMove 'up', classMoveJump
+				# 'PUNCH': @setMove ''
 
 		
 		# Easier factory for creating moves
