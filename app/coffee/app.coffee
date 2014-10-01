@@ -13,11 +13,9 @@ config =
 
 require.config config
 
-requirejs ['createjs', 'modules/abstract/fighterstage', 'modules/abstract/fighter'], ( createjs, FighterStage, Fighter ) ->
-	window.stage = new FighterStage 'streetfighterGame'
+requirejs [
+	'modules/abstract/game/fightergame'
+], ( FighterGame ) ->
 
-	window.ryu = new Fighter
+	window.streetfighter = new FighterGame
 
-	window.ryu.objContainer.y = 320
-	
-	window.stage.addFighter window.ryu

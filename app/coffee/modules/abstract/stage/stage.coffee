@@ -3,14 +3,13 @@
 @Name: Stage class
 @Description: Stage that is handling all the actors
 ###
-define [ 'createjs' ], ( createjs ) ->
+define [ 
+	'createjs' 
+], ( createjs ) ->
 	class Stage
 		constructor: ( @strStageName = 'myGameStage' ) ->
 			@objStage = new createjs.Stage @strStageName
-
-			createjs.Ticker.addEventListener 'tick', @onTick.bind( this )
-
-		onTick: () ->
+		update: ->
 			@objStage.update()
 
 	        
